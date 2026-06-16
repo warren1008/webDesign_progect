@@ -40,8 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Profile - Noodle Store</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <meta name="csrf-token" content="<?php echo htmlspecialchars(csrfToken()); ?>">
 </head>
 <body>
     <div class="container">
@@ -49,8 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>👤 Admin Profile</h1>
             <nav>
                 <a href="index.php">Dashboard</a>
+                <a href="analytics.php">Analytics</a>
                 <a href="products.php">Products</a>
                 <a href="orders.php">Orders</a>
+                <a href="users.php">Users</a>
+                <a href="payments.php">Payments</a>
+                <a href="profile.php">Profile</a>
                 <a href="../logout.php">Logout</a>
             </nav>
         </header>
@@ -94,5 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <script src="../assets/app.js"></script>
 </body>
 </html>

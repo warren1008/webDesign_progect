@@ -19,8 +19,10 @@ $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users - Admin</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <meta name="csrf-token" content="<?php echo htmlspecialchars(csrfToken()); ?>">
 </head>
 <body>
     <div class="container">
@@ -28,7 +30,12 @@ $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
             <h1>👥 Manage Users</h1>
             <nav>
                 <a href="index.php">Dashboard</a>
+                <a href="analytics.php">Analytics</a>
+                <a href="products.php">Products</a>
                 <a href="orders.php">Orders</a>
+                <a href="users.php">Users</a>
+                <a href="payments.php">Payments</a>
+                <a href="profile.php">Profile</a>
                 <a href="../logout.php">Logout</a>
             </nav>
         </header>
@@ -48,13 +55,14 @@ $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
                 <?php while ($user = $users->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $user['id']; ?></td>
-                    <td><?php echo htmlspecialchars($user['username']); ?></td>
+                    <td><span data-user-track><?php echo htmlspecialchars($user['username']); ?></span></td>
                     <td><?php echo htmlspecialchars($user['email']); ?></td>
                     <td><?php echo ucfirst($user['role']); ?></td>
                     <td><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
                     <td>
                         <?php if ($user['id'] != $_SESSION['user_id']): ?>
-                            <a href="?delete=<?php echo $user['id']; ?>" class="btn-small btn-danger" onclick="return confirm('Delete this user?')">Delete</a>
+                            <button type="button" class="btn-small btn-danger"
+                                    data-user-delete="<?php echo (int)$user['id']; ?>">Delete</button>
                         <?php else: ?>
                             <span class="text-muted">Current Admin</span>
                         <?php endif; ?>
@@ -64,5 +72,6 @@ $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
             </tbody>
         </table>
     </div>
+    <script src="../assets/app.js"></script>
 </body>
 </html>

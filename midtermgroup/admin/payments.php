@@ -15,8 +15,10 @@ $payments = $conn->query("
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Logs - Admin</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <meta name="csrf-token" content="<?php echo htmlspecialchars(csrfToken()); ?>">
 </head>
 <body>
     <div class="container">
@@ -24,11 +26,20 @@ $payments = $conn->query("
             <h1>💳 Payment Transaction Logs</h1>
             <nav>
                 <a href="index.php">Dashboard</a>
+                <a href="analytics.php">Analytics</a>
+                <a href="products.php">Products</a>
                 <a href="orders.php">Orders</a>
+                <a href="users.php">Users</a>
+                <a href="payments.php">Payments</a>
+                <a href="profile.php">Profile</a>
                 <a href="../logout.php">Logout</a>
             </nav>
         </header>
         
+        <div class="admin-demo-toolbar">
+            <button type="button" class="btn btn-secondary btn-small" data-simulate-payment>模擬前台機台刷卡進帳</button>
+            <small>展示資料僅加入畫面，不寫入正式付款紀錄。</small>
+        </div>
         <table class="data-table">
             <thead>
                 <tr>
@@ -44,7 +55,10 @@ $payments = $conn->query("
             <tbody>
                 <?php while ($payment = $payments->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($payment['transaction_id'] ?? 'N/A'); ?></td>
+                    <td><button type="button" class="transaction-link"
+                                data-transaction="<?php echo htmlspecialchars($payment['transaction_id'] ?? 'N/A'); ?>">
+                        <?php echo htmlspecialchars($payment['transaction_id'] ?? 'N/A'); ?>
+                    </button></td>
                     <td><?php echo htmlspecialchars($payment['order_number']); ?></td>
                     <td><?php echo htmlspecialchars($payment['username']); ?></td>
                     <td>$<?php echo number_format($payment['amount'], 2); ?></td>
@@ -60,5 +74,6 @@ $payments = $conn->query("
             </tbody>
         </table>
     </div>
+    <script src="../assets/app.js"></script>
 </body>
 </html>

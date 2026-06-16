@@ -70,8 +70,10 @@ $products = $conn->query("SELECT * FROM noodles ORDER BY code");
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Products - Admin</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <meta name="csrf-token" content="<?php echo htmlspecialchars(csrfToken()); ?>">
 </head>
 <body>
     <div class="container">
@@ -79,7 +81,12 @@ $products = $conn->query("SELECT * FROM noodles ORDER BY code");
             <h1>🍜 Manage Noodle Products</h1>
             <nav>
                 <a href="index.php">Dashboard</a>
+                <a href="analytics.php">Analytics</a>
+                <a href="products.php">Products</a>
                 <a href="orders.php">Orders</a>
+                <a href="users.php">Users</a>
+                <a href="payments.php">Payments</a>
+                <a href="profile.php">Profile</a>
                 <a href="../logout.php">Logout</a>
             </nav>
         </header>
@@ -150,18 +157,19 @@ $products = $conn->query("SELECT * FROM noodles ORDER BY code");
                     </thead>
                     <tbody>
                         <?php while ($product = $products->fetch_assoc()): ?>
-                        <tr class="<?php echo $product['stock'] < 10 ? 'low-stock' : ''; ?>">
+                        <tr class="<?php echo $product['stock'] < 10 ? 'low-stock' : ''; ?>"
+                            data-product-row="<?php echo (int)$product['id']; ?>">
                             <td><strong><?php echo htmlspecialchars($product['code']); ?></strong></td>
                             <td><?php echo htmlspecialchars($product['name']); ?></td>
                             <td><?php echo htmlspecialchars($product['brand']); ?></td>
-                            <td>$<?php echo number_format($product['price'], 2); ?></td>
-                            <td class="<?php echo $product['stock'] < 10 ? 'stock-warning' : ''; ?>">
+                            <td data-product-price="<?php echo (float)$product['price']; ?>">$<?php echo number_format($product['price'], 2); ?></td>
+                            <td data-product-stock="<?php echo (int)$product['stock']; ?>" class="<?php echo $product['stock'] < 10 ? 'stock-warning' : ''; ?>">
                                 <?php echo $product['stock']; ?>
                                 <?php if ($product['stock'] < 10): ?> ⚠️<?php endif; ?>
                             </td>
-                            <td>
-                                <a href="?edit=<?php echo $product['id']; ?>" class="btn-small">Edit</a>
-                                <a href="?delete=<?php echo $product['id']; ?>" class="btn-small btn-danger" onclick="return confirm('Delete this product?')">Delete</a>
+                            <td data-row-actions>
+                                <button type="button" class="btn-small" data-inline-edit>Edit</button>
+                                <button type="button" class="btn-small btn-danger" data-product-delete>Delete</button>
                             </td>
                         </tr>
                         <?php endwhile; ?>
@@ -170,5 +178,6 @@ $products = $conn->query("SELECT * FROM noodles ORDER BY code");
             </div>
         </div>
     </div>
+    <script src="../assets/app.js"></script>
 </body>
 </html>

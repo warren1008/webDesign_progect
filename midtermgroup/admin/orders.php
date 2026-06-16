@@ -3,14 +3,22 @@ require_once '../includes/config.php';
 require_once '../includes/functions.php';
 requireAdmin();
 
+$message = isset($_GET['updated']) ? 'Order status updated successfully.' : '';
+$allowed_statuses = ['pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'];
+
 // Handle order status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     $order_id = (int)$_POST['order_id'];
-    $order_status = $_POST['order_status'];
-    
-    $stmt = $conn->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
-    $stmt->bind_param("si", $order_status, $order_id);
-    $stmt->execute();
+    $order_status = $_POST['order_status'] ?? '';
+
+    // AI 修改：原本下拉選單沒有送出 update_status，導致訂單狀態完全不會更新
+    if ($order_id > 0 && in_array($order_status, $allowed_statuses, true)) {
+        $stmt = $conn->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
+        $stmt->bind_param("si", $order_status, $order_id);
+        $stmt->execute();
+        header('Location: orders.php?updated=1');
+        exit();
+    }
 }
 
 // Get all orders
@@ -26,8 +34,10 @@ $orders = $conn->query("
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Orders - Admin</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <meta name="csrf-token" content="<?php echo htmlspecialchars(csrfToken()); ?>">
 </head>
 <body>
     <div class="container">
@@ -35,11 +45,24 @@ $orders = $conn->query("
             <h1>📋 Manage Customer Orders</h1>
             <nav>
                 <a href="index.php">Dashboard</a>
+                <a href="analytics.php">Analytics</a>
                 <a href="products.php">Products</a>
+                <a href="orders.php">Orders</a>
+                <a href="users.php">Users</a>
+                <a href="payments.php">Payments</a>
+                <a href="profile.php">Profile</a>
                 <a href="../logout.php">Logout</a>
             </nav>
         </header>
+
+        <?php if ($message): ?>
+            <div class="success"><?php echo htmlspecialchars($message); ?></div>
+        <?php endif; ?>
         
+        <div class="admin-demo-toolbar">
+            <button type="button" class="btn btn-secondary btn-small" data-simulate-order>模擬顧客點餐結帳</button>
+            <small>展示按鈕只新增前端模擬列，不寫入正式訂單資料。</small>
+        </div>
         <div class="orders-admin">
             <table class="data-table">
                 <thead>
@@ -72,15 +95,16 @@ $orders = $conn->query("
                             </span>
                         </td>
                         <td>
-                            <span class="status-badge status-<?php echo $order['order_status']; ?>">
+                            <span class="status-badge status-<?php echo $order['order_status']; ?>" data-order-status-badge>
                                 <?php echo ucfirst($order['order_status']); ?>
                             </span>
                         </td>
                         <td><code><?php echo $order['pickup_code']; ?></code></td>
                         <td>
-                            <form method="POST" style="display: inline;">
+                            <form method="POST" style="display: inline;" data-order-status-form="<?php echo (int)$order['id']; ?>">
+                                <input type="hidden" name="update_status" value="1">
                                 <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
-                                <select name="order_status" onchange="this.form.submit()">
+                                <select name="order_status">
                                     <option value="pending" <?php echo $order['order_status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
                                     <option value="confirmed" <?php echo $order['order_status'] == 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>
                                     <option value="preparing" <?php echo $order['order_status'] == 'preparing' ? 'selected' : ''; ?>>Preparing</option>
@@ -96,5 +120,6 @@ $orders = $conn->query("
             </table>
         </div>
     </div>
+    <script src="../assets/app.js"></script>
 </body>
 </html>
