@@ -1,1 +1,0 @@
-user_id|i:2;username|s:8:"john_doe";user_role|s:4:"user";cart|a:2:{i:1;a:5:{s:2:"id";i:1;s:4:"code";s:4:"N001";s:4:"name";s:11:"Shin Ramyun";s:5:"price";s:4:"5.99";s:8:"quantity";i:1;}i:2;a:5:{s:2:"id";i:2;s:4:"code";s:4:"N002";s:4:"name";s:17:"Indomie Mi Goreng";s:5:"price";s:4:"3.99";s:8:"quantity";i:1;}}
