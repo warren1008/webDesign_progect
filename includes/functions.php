@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-// AI 修改：依目前頁面所在目錄產生正確導向路徑，避免前台頁面被導到錯誤的 ../login.php
+
 function appPath($path) {
     $inAdmin = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false;
     return ($inAdmin ? '../' : '') . ltrim($path, '/');
@@ -12,7 +12,6 @@ function redirectTo($path) {
     exit();
 }
 
-// AI 修改：共用 CSRF Token，保護新增的會員與點餐表單
 function csrfToken() {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
@@ -26,14 +25,14 @@ function verifyCsrfToken($token) {
         && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-// Redirect if not logged in
+
 function requireLogin() {
     if (!isset($_SESSION['user_id'])) {
         redirectTo('login.php');
     }
 }
 
-// Redirect if not admin
+
 function requireAdmin() {
     requireLogin();
     if ($_SESSION['user_role'] !== 'admin') {
@@ -41,7 +40,7 @@ function requireAdmin() {
     }
 }
 
-// AI 修改：資料庫不可用時仍可用展示資料完成點餐流程 demo
+
 function getDemoNoodles() {
     return [
         ['id' => 1, 'code' => 'N001', 'name' => 'Shin Ramyun', 'brand' => 'Nongshim', 'price' => 5.99, 'stock' => 50, 'image' => 'assets/images/noodles/N001-shin-ramyun.webp'],
@@ -64,7 +63,7 @@ function findDemoNoodle($matcher) {
     return null;
 }
 
-// Get user by ID
+
 function getUserById($id) {
     global $conn;
     $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
@@ -73,7 +72,7 @@ function getUserById($id) {
     return $stmt->get_result()->fetch_assoc();
 }
 
-// Get noodle by code
+
 function getNoodleByCode($code) {
     global $conn, $db_error;
     $code = strtoupper(trim($code));
@@ -93,7 +92,7 @@ function getNoodleByCode($code) {
     });
 }
 
-// Get noodle by ID
+
 function getNoodleById($id) {
     global $conn, $db_error;
     $id = (int)$id;
@@ -113,7 +112,7 @@ function getNoodleById($id) {
     });
 }
 
-// Update stock
+
 function updateStock($noodle_id, $quantity) {
     global $conn;
     $stmt = $conn->prepare("UPDATE noodles SET stock = stock - ? WHERE id = ? AND stock >= ?");
@@ -121,12 +120,12 @@ function updateStock($noodle_id, $quantity) {
     return $stmt->execute() && $stmt->affected_rows > 0;
 }
 
-// Generate unique order number
+
 function generateOrderNumber() {
     return 'ORD-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
 }
 
-// Generate pickup code
+
 function generatePickupCode() {
     return strtoupper(substr(md5(uniqid()), 0, 8));
 }
@@ -135,7 +134,6 @@ function generateLockerNumber($orderId) {
     return 'L-' . str_pad((string)(((int)$orderId % 24) + 1), 2, '0', STR_PAD_LEFT);
 }
 
-// AI 修改：客製化選項由後端重新計價，避免前端竄改價格
 function getCustomizationCatalog() {
     return [
         'broth' => [
@@ -220,7 +218,6 @@ function customizationSummary($customization) {
     return implode(' / ', $parts);
 }
 
-// AI 修改：一般點餐頁加料選項由後端統一提供，避免前端自行決定價格。
 function getNoodleToppingCatalog() {
     global $conn, $db_error;
     $fallback = [
@@ -327,7 +324,6 @@ function cartItemKey($noodleId, $customization = []) {
     return 'custom-' . (int)$noodleId . '-' . substr(hash('sha256', json_encode($customization)), 0, 12);
 }
 
-// AI 修改：檢查付款月份格式與是否已過期，避免只驗證字串外觀
 function isValidPaymentExpiry($cardExpiry) {
     if (!preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $cardExpiry, $matches)) {
         return false;
@@ -341,13 +337,12 @@ function isValidPaymentExpiry($cardExpiry) {
     return $expiryEnd >= new DateTimeImmutable('today');
 }
 
-// Process payment (simulation - for demo only)
 function processPayment($amount, $cardNumber, $cardExpiry, $cardCVV, $cardType = '') {
-    // AI 修改：讓付款 Demo 與畫面上的卡別選項一致，避免 Amex 選項永遠失敗
+
     $cardNumber = preg_replace('/\s/', '', $cardNumber);
     $firstDigit = substr($cardNumber, 0, 1);
     $cardType = strtolower($cardType);
-    
+
     if (!isValidPaymentExpiry($cardExpiry)) {
         return ['success' => false, 'message' => 'Invalid or expired card date. Use a future MM/YY value.'];
     }
@@ -356,21 +351,21 @@ function processPayment($amount, $cardNumber, $cardExpiry, $cardCVV, $cardType =
     $isMastercard = $cardType === 'mastercard' && $firstDigit === '5' && strlen($cardNumber) === 16 && strlen($cardCVV) === 3;
     $isAmex = $cardType === 'amex' && $firstDigit === '3' && strlen($cardNumber) === 15 && strlen($cardCVV) === 4;
 
-    // Demo: Accept valid-looking cards by selected card type
+
     if ($isVisa || $isMastercard || $isAmex) {
         return ['success' => true, 'transaction_id' => 'TXN-' . strtoupper(uniqid())];
     }
-    
+
     return ['success' => false, 'message' => 'Invalid card details. Visa starts with 4, Mastercard starts with 5, Amex starts with 3.'];
 }
 
-// Create order
+
 function createOrder($user_id, $cart, $payment_method, $card_type = null, $pricing = null) {
     global $conn;
     if (!ensureOrderCustomizationSchema()) {
         return ['success' => false, 'message' => 'The database update for custom orders is not installed.'];
     }
-    
+
     $subtotal = 0;
     foreach ($cart as $item) {
         $subtotal += $item['price'] * $item['quantity'];
@@ -384,14 +379,14 @@ function createOrder($user_id, $cart, $payment_method, $card_type = null, $prici
         static fn($promotion) => $promotion['title_zh'] ?? $promotion['title'] ?? '',
         $pricing['applied_promotions'] ?? []
     ));
-    
+
     $order_number = generateOrderNumber();
     $pickup_code = generatePickupCode();
-    
+
     $conn->begin_transaction();
-    
+
     try {
-        // Insert order
+
         $stmt = $conn->prepare("INSERT INTO orders
             (order_number,user_id,total_amount,subtotal_amount,discount_amount,points_used,points_earned,promotion_summary,payment_method,pickup_code,order_status,payment_status)
             VALUES (?,?,?,?,?,?,?,?,?,?,'confirmed','paid')");
@@ -410,8 +405,8 @@ function createOrder($user_id, $cart, $payment_method, $card_type = null, $prici
         );
         $stmt->execute();
         $order_id = $conn->insert_id;
-        
-        // Insert order items
+
+
         foreach ($cart as $item) {
             $customizationJson = empty($item['customization'])
                 ? null
@@ -419,8 +414,8 @@ function createOrder($user_id, $cart, $payment_method, $card_type = null, $prici
             $stmt = $conn->prepare("INSERT INTO order_items (order_id, noodle_id, quantity, price, customization_json) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("iiids", $order_id, $item['id'], $item['quantity'], $item['price'], $customizationJson);
             $stmt->execute();
-            
-            // AI 修改：建立訂單時同步檢查庫存，避免超賣
+
+
             $stmt2 = $conn->prepare("UPDATE noodles SET stock = stock - ? WHERE id = ? AND stock >= ?");
             $stmt2->bind_param("iii", $item['quantity'], $item['id'], $item['quantity']);
             $stmt2->execute();
@@ -429,7 +424,7 @@ function createOrder($user_id, $cart, $payment_method, $card_type = null, $prici
             }
             reduceToppingStock($item['customization'] ?? [], (int)$item['quantity']);
         }
-        
+
         $conn->commit();
         return [
             'success' => true,
@@ -438,14 +433,14 @@ function createOrder($user_id, $cart, $payment_method, $card_type = null, $prici
             'pickup_code' => $pickup_code,
             'pricing' => $pricing,
         ];
-        
+
     } catch (Exception $e) {
         $conn->rollback();
         return ['success' => false, 'message' => $e->getMessage()];
     }
 }
 
-// Record payment
+
 function recordPayment($order_id, $amount, $card_type, $status, $transaction_id = null) {
     global $conn;
     $stmt = $conn->prepare("INSERT INTO payments (order_id, transaction_id, amount, card_type, status) VALUES (?, ?, ?, ?, ?)");
@@ -453,7 +448,7 @@ function recordPayment($order_id, $amount, $card_type, $status, $transaction_id 
     return $stmt->execute();
 }
 
-// Get cart count
+
 function getCartCount() {
     $count = 0;
     if (isset($_SESSION['cart'])) {
@@ -474,7 +469,7 @@ function getCartNoodleQuantity($noodleId) {
     return $count;
 }
 
-// Get cart total
+
 function getCartTotal() {
     $total = 0;
     if (isset($_SESSION['cart'])) {

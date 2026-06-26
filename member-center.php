@@ -48,6 +48,27 @@ $redemptions = $conn->query("SELECT rr.*,r.name_zh FROM reward_redemptions rr
         </div>
     </section>
 
+    <section class="member-security-panel innovation-card">
+        <div>
+            <p class="eyebrow" data-en="ACCOUNT SECURITY" data-zh="帳戶安全中心">ACCOUNT SECURITY</p>
+            <h2 class="neon-dynamic-title" data-en="Password & Access Guard" data-zh="密碼與登入防護">密碼與登入防護</h2>
+            <p data-en="Manage your password and sign-in protection to keep your member account ready for self-service pickup."
+               data-zh="管理密碼與登入防護，讓會員帳號維持可安全取餐的狀態。">管理密碼與登入防護，讓會員帳號維持可安全取餐的狀態。</p>
+        </div>
+        <div class="member-security-actions">
+            <a class="security-action-card" href="profile.php#password-settings">
+                <strong data-en="Change Password" data-zh="修改密碼">修改密碼</strong>
+                <span data-en="Update your current password after identity verification."
+                      data-zh="通過目前密碼驗證後，立即更新登入密碼。">通過目前密碼驗證後，立即更新登入密碼。</span>
+            </a>
+            <div class="security-action-card is-passive">
+                <strong data-en="Security Check" data-zh="安全檢查">安全檢查</strong>
+                <span data-en="Use a unique password and update it regularly before checkout."
+                      data-zh="建議使用專屬密碼，並定期於結帳前更新。">建議使用專屬密碼，並定期於結帳前更新。</span>
+            </div>
+        </div>
+    </section>
+
     <div class="member-history-grid">
         <section class="history-panel">
             <h2>點數紀錄</h2>

@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/functions.php';
 requireLogin();
 
-// Redirect if cart is empty
+
 if (empty($_SESSION['cart'])) {
     header('Location: cart.php?error=cart_empty');
     exit();
@@ -18,14 +18,14 @@ $tax_id = preg_replace('/\D/', '', $_POST['tax_id'] ?? '');
 $error = '';
 $success = '';
 
-// Process payment when form is submitted
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
     $card_type = $_POST['card_type'] ?? '';
     $card_number = preg_replace('/\s/', '', $_POST['card_number'] ?? '');
     $card_expiry = $_POST['card_expiry'] ?? '';
     $card_cvv = $_POST['card_cvv'] ?? '';
-    
-    // Validate card details
+
+
     if (empty($card_type) || empty($card_number) || empty($card_expiry) || empty($card_cvv)) {
         $error = 'Please fill in all payment details';
     } elseif ($invoice_carrier !== '' && !preg_match('/^\/[A-Z0-9.+-]{7}$/i', $invoice_carrier)) {
@@ -33,15 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
     } elseif ($tax_id !== '' && !preg_match('/^\d{8}$/', $tax_id)) {
         $error = '統一編號需為 8 位數字。';
     } else {
-        // Process payment
+
         $payment_result = processPayment($benefits['final_total'], $card_number, $card_expiry, $card_cvv, $card_type);
-        
+
         if ($payment_result['success']) {
-            // Create order
+
             $order_result = createOrder($_SESSION['user_id'], $_SESSION['cart'], 'credit_card', $card_type, $benefits);
-            
+
             if ($order_result['success']) {
-                // Record payment
+
                 recordPayment($order_result['order_id'], $benefits['final_total'], $card_type, 'success', $payment_result['transaction_id']);
                 if ($benefits['points_used'] > 0) {
                     changeUserPoints(
@@ -61,11 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
                         (int)$order_result['order_id']
                     );
                 }
-                
-                // Clear cart
+
+
                 $_SESSION['cart'] = [];
-                
-                // Store order info for success page
+
+
                 $_SESSION['last_order'] = [
                     'order_number' => $order_result['order_number'],
                     'pickup_code' => $order_result['pickup_code'],
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
                     'transaction_id' => $payment_result['transaction_id'],
                     'items' => $cart_items
                 ];
-                
+
                 header('Location: order-success.php');
                 exit();
             } else {
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
                 <a href="logout.php">🚪 Logout</a>
             </div>
         </header>
-        
+
         <?php if ($error): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
             <div class="flow-step is-active"><span>3</span><strong>Pay</strong><small>Secure payment</small></div>
             <div class="flow-step"><span>4</span><strong>Pickup</strong><small>Show pickup code</small></div>
         </section>
-        
+
         <div class="checkout-layout">
             <div class="order-summary">
                 <h2>📋 Order Summary</h2>
@@ -171,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
                     <?php endforeach; ?>
                 </div>
             </div>
-            
+
             <div class="payment-form">
                 <h2>💳 Payment Method</h2>
                 <form method="POST" data-payment-form>
@@ -188,24 +188,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
                     </div>
                     <div class="card-types">
                         <label class="card-option">
-                            <input type="radio" name="card_type" value="visa" data-demo-card="4111111111111111" checked required> 
+                            <input type="radio" name="card_type" value="visa" data-demo-card="4111111111111111" checked required>
                             <span>💳 Visa</span>
                         </label>
                         <label class="card-option">
-                            <input type="radio" name="card_type" value="mastercard" data-demo-card="5555555555554444" required> 
+                            <input type="radio" name="card_type" value="mastercard" data-demo-card="5555555555554444" required>
                             <span>💳 Mastercard</span>
                         </label>
                         <label class="card-option">
-                            <input type="radio" name="card_type" value="amex" data-demo-card="378282246310005" required> 
+                            <input type="radio" name="card_type" value="amex" data-demo-card="378282246310005" required>
                             <span>💳 American Express</span>
                         </label>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Card Number</label>
                         <input type="text" name="card_number" placeholder="4111 1111 1111 1111" maxlength="19" inputmode="numeric" data-card-number required>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label>Expiry Date</label>
@@ -241,13 +241,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="payment-actions">
                         <button type="submit" name="process_payment" class="btn btn-success">Pay $<?php echo number_format($benefits['final_total'], 2); ?></button>
                         <a href="cart.php" class="btn btn-secondary">Cancel & Back to Cart</a>
                     </div>
                 </form>
-                
+
                 <div class="demo-note">
                     <p>💡 <strong>Accepted card format:</strong> Visa starts with 4, Mastercard starts with 5, Amex starts with 3</p>
                     <p>Example: <strong>4111 1111 1111 1111</strong> | 12/28 | 123</p>

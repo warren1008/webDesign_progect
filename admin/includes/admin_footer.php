@@ -24,7 +24,7 @@
     </div>
 
     <div class="site-footer__bottom">
-        <strong>Staffless Ramen Admin Console</strong>
+        <strong class="neon-footer-license" data-en="©2026  Department of Information Management, National University of Kaohsiung. All Rights Reserved." data-zh="©2026 國立高雄大學資訊管理學系。版權所有。">©2026 Staffless Ramen Admin Console. All Rights Reserved.</strong>
         <small data-en="Backend links stay inside the admin console. Use View Customer Site when you need to check the storefront."
                data-zh="後台頁尾連結會留在管理端；需要查看前台時，請使用「前往前台網站」。">Backend links stay inside the admin console. Use View Customer Site when you need to check the storefront.</small>
     </div>

@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'includes/functions.php';
 requireLogin();
 
-// Initialize cart in session
+
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -15,15 +15,15 @@ if (!preg_match('/^N\d{3}$/', $selected_code) || !getNoodleByCode($selected_code
     $selected_code = '';
 }
 
-// Handle adding to cart
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $noodle_code = strtoupper(trim($_POST['noodle_code']));
     $quantity = (int)$_POST['quantity'];
-    
+
     $noodle = getNoodleByCode($noodle_code);
-    
+
     if ($noodle) {
-        // AI 修改：一般點餐頁加入加料後，同一泡麵不同加料會成為不同購物車品項。
+
         $addonResult = buildNoodleAddons($_POST['toppings'] ?? [], $quantity);
         $customization = $addonResult['success'] ? $addonResult['selection'] : [];
         $cart_key = cartItemKey((int)$noodle['id'], $customization);
@@ -58,15 +58,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     }
 }
 
-// Handle removing from cart
+
 if (isset($_GET['remove'])) {
-    // AI 修改：使用實際購物車索引，兼容一般商品與客製拉麵。
+
     $cart_key = preg_replace('/[^A-Za-z0-9-]/', '', (string)$_GET['remove']);
     unset($_SESSION['cart'][$cart_key]);
     $message = "Item removed from cart";
 }
 
-// Handle clearing cart
+
 if (isset($_GET['clear'])) {
     $_SESSION['cart'] = [];
     $message = "Cart cleared";
@@ -75,7 +75,7 @@ if (isset($_GET['clear'])) {
 $cart_total = getCartTotal();
 $cart_count = getCartCount();
 
-// AI 修改：資料庫不可用時改用展示菜單，避免 dashboard 空白
+
 $available_noodles = [];
 if (empty($db_error)) {
     $result = $conn->query("SELECT code, name, stock FROM noodles ORDER BY code");
@@ -109,12 +109,12 @@ $topping_options = getNoodleToppingCatalog();
         <?php include 'includes/navbar.php'; ?>
 
         <section class="dashboard-welcome-strip">
-            <!-- AI 修改：共用電商導覽後，保留使用者歡迎與點餐狀態提示。 -->
+
             <h1>🍜 Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
             <p data-en="Scan a shelf code, add toppings, and send the order to the unmanned pickup flow."
                data-zh="掃描貨架代碼、加選配料，並送進無人取餐流程。">Scan a shelf code, add toppings, and send the order to the unmanned pickup flow.</p>
         </section>
-        
+
         <?php if ($message): ?>
             <div class="success"><?php echo htmlspecialchars($message); ?></div>
         <?php endif; ?>
@@ -126,13 +126,13 @@ $topping_options = getNoodleToppingCatalog();
         <?php endif; ?>
 
         <section class="flow-progress" aria-label="Ordering progress">
-            <!-- AI 修改：補上無人拉麵商店使用流程，對齊 PDF 的 user flow -->
+
             <div class="flow-step is-active"><span>1</span><strong>Code</strong><small>Enter noodle code</small></div>
             <div class="flow-step"><span>2</span><strong>Cart</strong><small>Confirm quantity</small></div>
             <div class="flow-step"><span>3</span><strong>Pay</strong><small>Secure payment</small></div>
             <div class="flow-step"><span>4</span><strong>Pickup</strong><small>Show pickup code</small></div>
         </section>
-        
+
         <div class="dashboard-layout">
             <div class="enter-noodle">
                 <h2>📱 Enter Noodle Code</h2>
@@ -147,7 +147,7 @@ $topping_options = getNoodleToppingCatalog();
                     </div>
 
                 <div class="kiosk-panel">
-                    <!-- AI 修改：新增自助機台狀態感，提升期末展示互動性 -->
+
                     <div class="kiosk-screen" data-kiosk-screen>
                         <span class="kiosk-dot"></span>
                         <?php if ($selected_code): ?>
@@ -162,7 +162,7 @@ $topping_options = getNoodleToppingCatalog();
                         <span></span><span></span><span></span><span></span>
                     </div>
                 </div>
-                
+
                 <div class="noodle-reference">
                     <h3>Available Noodle Codes:</h3>
                     <div class="code-list">
@@ -176,7 +176,7 @@ $topping_options = getNoodleToppingCatalog();
                 </div>
 
                     <section class="addon-panel" data-addon-panel>
-                        <!-- AI 修改：參考行動點餐架構，讓泡麵可直接加大與加配料。 -->
+
                         <div class="addon-panel__head">
                             <div>
                                 <p class="eyebrow">SMART TOPPING BAY</p>
@@ -216,7 +216,7 @@ $topping_options = getNoodleToppingCatalog();
                     </section>
                 </form>
             </div>
-            
+
             <div class="shopping-cart">
                 <h2>🛒 Your Cart</h2>
                 <?php if (empty($_SESSION['cart'])): ?>

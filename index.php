@@ -8,7 +8,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ensureInnovationSchema();
 
-// AI 修改：資料庫暫時不可用時，首頁仍可用展示資料呈現專題概念
 $featured_noodles = [];
 if (empty($db_error)) {
     $result = $conn->query("SELECT * FROM noodles WHERE code IN ('N001','N002','N003','N004','N005','N006','N007','N008') ORDER BY code ASC");
@@ -32,7 +31,6 @@ if (empty($featured_noodles)) {
     ];
 }
 
-// AI 修改：為熱門商品配置一致風格圖片與推薦屬性
 $noodle_visuals = [
     'N001' => ['image' => 'N001-shin-ramyun.webp', 'spice' => 'hot', 'style' => 'spicy', 'mood' => 'energy'],
     'N002' => ['image' => 'N002-mi-goreng.webp', 'spice' => 'medium', 'style' => 'dry', 'mood' => 'energy'],
@@ -67,7 +65,7 @@ $demo_locations = array_slice(getDemoLocations(), 0, 3);
             <button type="button" data-safety-pause aria-label="Pause">Ⅱ</button>
             <button type="button" data-safety-close aria-label="Close">&times;</button>
         </aside>
-        
+
         <div class="hero">
             <div class="hero-content">
                 <h2>Welcome to the Future of Noodle Shopping</h2>
@@ -101,7 +99,7 @@ $demo_locations = array_slice(getDemoLocations(), 0, 3);
         </div>
 
         <section class="experience-section" id="how-it-works">
-            <!-- AI 修改：補齊首頁對無人拉麵商店核心流程的展示 -->
+
             <div class="section-heading">
                 <p>STAFFLESS FLOW</p>
                 <h2>From shelf to pickup code in four steps</h2>
@@ -196,7 +194,7 @@ $demo_locations = array_slice(getDemoLocations(), 0, 3);
         </section>
 
         <section class="ai-recommend-section" id="ai-recommend">
-            <!-- AI 修改：以口味偏好即時配對商品，作為期末展示的 AI 推薦功能 -->
+
             <div class="section-heading">
                 <p>AI TASTE MATCH</p>
                 <h2>Find your ramen personality</h2>
@@ -250,7 +248,7 @@ $demo_locations = array_slice(getDemoLocations(), 0, 3);
                 </div>
             </div>
         </section>
-        
+
         <div class="featured-noodles" id="menu">
             <h2>Popular Instant Noodles</h2>
             <?php if (!empty($db_error)): ?>

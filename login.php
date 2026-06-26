@@ -13,7 +13,7 @@ if (isset($_SESSION['user_id'])) {
 
 $error = '';
 $next = $_POST['next'] ?? $_GET['next'] ?? 'dashboard.php';
-// AI 修改：只允許導回站內前台頁面，避免任意外部重新導向
+
 if (!preg_match('/^(?:dashboard\.php(?:\?code=N\d{3})?|customize\.php|order-history\.php|member-center\.php|rewards\.php|cart\.php)$/', $next)) {
     $next = 'dashboard.php';
 }
@@ -24,18 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
-    
+
     $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE username = ? OR email = ?");
     $stmt->bind_param("ss", $username, $username);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-    
+
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['user_role'] = $user['role'];
-        
+
         if ($user['role'] === 'admin') {
             header('Location: admin/index.php');
         } else {

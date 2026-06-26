@@ -1,4 +1,4 @@
-// AI 修改：集中管理前台互動，讓期末 Demo 不需要額外套件也有操作回饋
+
 document.addEventListener('DOMContentLoaded', () => {
     let currentCurrency = localStorage.getItem('staffless-currency') || 'USD';
     let usdToTwdRate = 31.606;
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     window.stafflessFormatMoney = formatMoney;
 
-    // AI 修改：全站繁中 / English 即時切換，並記住使用者偏好
+
     const zhTranslations = {
         'Staffless Instant Noodle Store': '無人泡麵商店',
         'Grab → Scan → Pay → Go!': '拿取 → 掃碼 → 付款 → 取餐！',
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Confirm New Password': '確認新密碼'
     };
 
-    // AI 修改：補齊前台、新功能頁與管理後台的繁體中文介面
+
     Object.assign(zhTranslations, {
         'Ramen Lab': '拉麵實驗室',
         'Build Custom Ramen': '打造客製拉麵',
@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Database connection is temporarily unavailable.': '資料庫暫時無法連線。'
     });
 
-    // AI 修改：補齊後台表格與付款頁常見欄位的繁中顯示。
+
     Object.assign(zhTranslations, {
         'Card Type': '卡片類型',
         'Total': '總計',
@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '顧客回饋－管理後台': 'Customer Feedback - Admin'
     };
 
-    // AI 修改：新功能頁以繁中為主要文案，切換 EN 時提供對應英文介面。
+
     const enTranslations = {
         '活動優惠中心': 'Promotion Center',
         '首頁': 'Home',
@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : original;
         });
 
-        // AI 修改：同步翻譯無障礙標籤與唯讀欄位，避免繁中介面殘留英文。
+
         document.querySelectorAll('[aria-label]').forEach((element) => {
             if (!originalAriaLabels.has(element)) {
                 originalAriaLabels.set(element, element.getAttribute('aria-label'));
@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.dispatchEvent(new CustomEvent('staffless:languagechange', { detail: { language } }));
     };
 
-    // AI 修改：全站 USD / TWD 顯示切換，價格資料仍以 USD 儲存與結帳。
+
     const replaceUsdAmounts = (text) => text.replace(
         /\+?\$([\d,]+(?:\.\d+)?)/g,
         (match, amount, offset, fullText) => {
@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCurrency = currency === 'TWD' ? 'TWD' : 'USD';
         localStorage.setItem('staffless-currency', currentCurrency);
 
-        // 先還原語言版本中的 USD 原始文字，再依最新匯率重新換算。
+
         applyLanguage(currentLanguage);
         document.querySelectorAll('[data-currency-option]').forEach((button) => {
             const isActive = button.dataset.currencyOption === currentCurrency;
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
             if (!data.stale) return data;
 
-            // 本機 PHP 可能缺少外部 SSL 憑證，改由瀏覽器直接取得最新公開匯率。
+
             return fetch('https://api.frankfurter.dev/v2/rate/USD/TWD', {
                 headers: { Accept: 'application/json' }
             })
@@ -1103,7 +1103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!subtotal) return;
             subtotal.textContent = formatMoney(Number(input.dataset.price) * Number(input.value || 0));
 
-            // AI 修改：數量變動時同步更新購物車總額，不必先送出表單才看得到結果
+
             const total = [...document.querySelectorAll('[data-live-subtotal]')]
                 .reduce((sum, item) => sum + (Number(item.dataset.price) * Number(item.value || 0)), 0);
             const totalNode = document.querySelector('[data-cart-total]');
@@ -1111,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // AI 修改：dashboard 加料艙即時計算，送出時仍由 PHP 後端重新計價。
+
     const addonPanel = document.querySelector('[data-addon-panel]');
     if (addonPanel) {
         const maxAddons = 6;
@@ -1211,7 +1211,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const pickupQr = document.querySelector('[data-pickup-qr]');
     if (pickupQr) {
-        // AI 修改：用取餐碼生成固定驗證矩陣，模擬無人取餐櫃掃描畫面
+
         const token = pickupQr.dataset.pickupQr || 'STAFFLESS';
         const size = 15;
         const finderCells = new Set();
@@ -1277,7 +1277,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// AI 修改：載入逐步遷移的語系層與 Word 更新清單共用互動。
 (() => {
     const current = document.currentScript;
     if (!current) return;

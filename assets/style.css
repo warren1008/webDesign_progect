@@ -11,10 +11,10 @@ body {
     background: #0a0a0a;
     min-height: 100vh;
     position: relative;
-    color: #e0e0e0;  /* Light gray text for all body */
+    color: #e0e0e0;
 }
 
-/* Animated Background Grid */
+
 body::before {
     content: '';
     position: fixed;
@@ -22,7 +22,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -30,7 +30,7 @@ body::before {
     z-index: 0;
 }
 
-/* Animated Gradient Orbs */
+
 body::after {
     content: '';
     position: fixed;
@@ -52,7 +52,7 @@ body::after {
     z-index: 1;
 }
 
-/* Header - Neon Glassmorphism */
+
 header {
     background: rgba(10, 10, 20, 0.8);
     backdrop-filter: blur(10px);
@@ -128,12 +128,10 @@ header nav {
     justify-content: flex-end;
 }
 
-/* AI 修改：頁面內第二層標題與小導覽已整合到頂部主選單，避免重複區塊佔用版面。 */
 .container > header.commerce-header ~ header {
     display: none !important;
 }
 
-/* AI 修改：Word 更新清單共用視覺與互動狀態 */
 header {
     position: sticky;
     top: 0;
@@ -1005,7 +1003,7 @@ header {
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
-/* Buttons - Neon Style */
+
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -1052,7 +1050,7 @@ header {
     color: white;
 }
 
-/* Hero Section - Futuristic */
+
 .hero {
     background: rgba(20, 20, 40, 0.7);
     backdrop-filter: blur(10px);
@@ -1129,7 +1127,7 @@ header {
 }
 
 .step p {
-    color: #ffffff !important;  /* Force white text for step descriptions */
+    color: #ffffff !important;
     font-size: 1rem;
 }
 
@@ -1148,7 +1146,7 @@ header {
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
 }
 
-/* Featured Noodles Section */
+
 .featured-noodles {
     background: rgba(20, 20, 40, 0.7);
     backdrop-filter: blur(10px);
@@ -1254,7 +1252,7 @@ header {
     color: #888888;
 }
 
-/* Auth Forms - Glowing */
+
 .auth-form {
     max-width: 500px;
     margin: 50px auto;
@@ -1329,7 +1327,7 @@ header {
     color: #00ffff;
 }
 
-/* Dashboard Layout */
+
 .dashboard-layout {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -1417,7 +1415,7 @@ header {
     font-size: 0.8rem;
 }
 
-/* Cart Table */
+
 .cart-table, .cart-table-full, .data-table, .orders-table {
     width: 100%;
     border-collapse: collapse;
@@ -1469,7 +1467,7 @@ header {
     justify-content: flex-end;
 }
 
-/* Checkout Layout */
+
 .checkout-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1569,7 +1567,7 @@ header {
     font-size: 0.8rem;
 }
 
-/* Success Page */
+
 .success-container {
     max-width: 600px;
     margin: 50px auto;
@@ -1674,7 +1672,7 @@ header {
     margin-top: 20px;
 }
 
-/* Admin Dashboard */
+
 .admin-container {
     max-width: 1400px;
 }
@@ -1797,7 +1795,7 @@ header {
     font-size: 0.9rem;
 }
 
-/* Order Card Styles */
+
 .order-card {
     background: rgba(20, 20, 40, 0.7);
     border-radius: 20px;
@@ -1838,7 +1836,7 @@ header {
     color: #ff00ff;
 }
 
-/* Status Badges */
+
 .status-badge {
     display: inline-block;
     padding: 5px 14px;
@@ -1891,7 +1889,7 @@ header {
     color: #666666;
 }
 
-/* Messages */
+
 .success {
     background: rgba(0, 255, 136, 0.1);
     color: #00ff88;
@@ -1919,7 +1917,7 @@ header {
     border-left: 3px solid #00ffff;
 }
 
-/* Empty States */
+
 .empty-state, .empty-cart-full {
     text-align: center;
     padding: 80px 20px;
@@ -1943,7 +1941,7 @@ header {
     opacity: 0.5;
 }
 
-/* Profile Layout */
+
 .profile-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1976,7 +1974,7 @@ header {
     color: #ff00ff;
 }
 
-/* Data Table */
+
 .data-table {
     background: rgba(20, 20, 40, 0.7);
     border-radius: 20px;
@@ -2001,7 +1999,7 @@ header {
     font-weight: bold;
 }
 
-/* Scrollbar Styling */
+
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -2015,7 +2013,7 @@ header {
     border-radius: 10px;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .dashboard-layout, .checkout-layout, .profile-layout, .admin-layout {
         grid-template-columns: 1fr;
@@ -2025,43 +2023,43 @@ header {
         grid-template-columns: 1fr;
         justify-items: start;
     }
-    
+
     .steps {
         flex-direction: column;
     }
-    
+
     header {
         flex-direction: column;
         text-align: center;
     }
-    
+
     .nav-links, header nav {
         margin-top: 15px;
     }
-    
+
     .nav-links a, header nav a {
         margin: 0 8px;
         font-size: 0.9rem;
     }
-    
+
     .hero-content h2 {
         font-size: 2rem;
     }
-    
+
     .hero {
         padding: 30px;
     }
-    
+
     .stat-number {
         font-size: 1.5rem;
     }
-    
+
     .code-list {
         grid-template-columns: 1fr;
     }
 }
 
-/* Loading Animation */
+
 @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
@@ -2073,18 +2071,18 @@ header {
     animation: shimmer 1.5s infinite;
 }
 
-/* Input Number Spinner Hide */
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     opacity: 0.5;
 }
 
-/* AI 修改：避免全域 span 顏色蓋掉狀態標籤、庫存與管理員 badge */
+
 p, li, .step p, .instruction p, .demo-credentials p, .order-info p {
     color: #e0e0e0 !important;
 }
 
-/* Links color */
+
 a {
     color: #00ffff;
     text-decoration: none;
@@ -2094,14 +2092,14 @@ a:hover {
     color: #ff00ff;
 }
 
-/* Headings color fallback */
+
 h1, h2, h3, h4 {
     background: linear-gradient(135deg, #00ffff, #ff00ff);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
-/* Payment Actions Buttons */
+
 .payment-actions {
     display: flex;
     gap: 15px;
@@ -2118,7 +2116,7 @@ h1, h2, h3, h4 {
     text-align: center;
 }
 
-/* Cart Actions */
+
 .cart-actions {
     display: flex;
     gap: 15px;
@@ -2134,7 +2132,7 @@ h1, h2, h3, h4 {
     margin-top: 20px;
 }
 
-/* Product Icon in Cart */
+
 .cart-product {
     display: flex;
     align-items: center;
@@ -2145,7 +2143,7 @@ h1, h2, h3, h4 {
     font-size: 1.5rem;
 }
 
-/* Quantity Input */
+
 .qty-input {
     width: 70px;
     padding: 8px;
@@ -2161,7 +2159,7 @@ h1, h2, h3, h4 {
     border-color: #00ffff;
 }
 
-/* AI 修改：首頁與流程展示區塊，延伸既有霓虹玻璃風格 */
+
 .hero-subtitle, .section-note {
     max-width: 760px;
     margin: -20px auto 25px;
@@ -2475,7 +2473,6 @@ h1, h2, h3, h4 {
     box-shadow: 0 0 16px rgba(0, 255, 136, 0.14);
 }
 
-/* AI 修改：成功頁補上無人取餐 QR 驗證與電子收據狀態 */
 .pickup-verification {
     display: grid;
     grid-template-columns: 190px 1fr;
@@ -2541,7 +2538,6 @@ h1, h2, h3, h4 {
     margin-top: 8px;
 }
 
-/* AI 修改：補齊管理商品頁原本缺少的桌面雙欄與表單容器 */
 .admin-layout {
     display: grid;
     grid-template-columns: minmax(300px, 0.8fr) minmax(520px, 1.4fr);
@@ -2703,7 +2699,6 @@ h1, h2, h3, h4 {
     color: #f4f7f8;
 }
 
-/* AI 修改：補強手機版與寬表格，不改原本視覺方向 */
 @media (max-width: 980px) {
     .timeline, .kiosk-demo-section, .flow-progress, .admin-layout {
         grid-template-columns: 1fr 1fr;
@@ -2718,7 +2713,7 @@ h1, h2, h3, h4 {
     }
 }
 
-/* AI 修改：手機版導覽列收合，避免連結擠在一起 */
+
 .nav-toggle {
     display: none;
     margin-top: 14px;
@@ -2823,7 +2818,6 @@ h1, h2, h3, h4 {
     }
 }
 
-/* AI 修改：繁中 / English 分段語言切換 */
 .language-switch {
     display: inline-grid;
     grid-template-columns: 1fr 1fr;
@@ -2860,7 +2854,6 @@ h1, h2, h3, h4 {
     box-shadow: 0 0 14px rgba(0, 255, 255, 0.34);
 }
 
-/* AI 修改：即時匯率與 USD / TWD 幣別切換 */
 .currency-widget {
     display: inline-flex;
     align-items: center;
@@ -2941,7 +2934,6 @@ html[lang="zh-Hant"] body {
     font-family: "Microsoft JhengHei", "Noto Sans TC", "Space Grotesk", sans-serif;
 }
 
-/* AI 修改：以實際菜色圖片取代單一 emoji，提升菜單辨識度 */
 .noodle-image-wrap {
     position: relative;
     width: 100%;
@@ -2980,7 +2972,6 @@ html[lang="zh-Hant"] body {
     backdrop-filter: blur(8px);
 }
 
-/* AI 修改：本機 AI 口味推薦互動區 */
 .ai-recommend-section {
     margin-bottom: 40px;
     padding: 36px;
@@ -3203,7 +3194,6 @@ html[lang="zh-Hant"] body {
     }
 }
 
-/* AI 修改：活動、點數、合作商圈與營業狀態共用視覺 */
 .compact-feature-hero,
 .points-banner,
 .store-status-hero,
@@ -4202,7 +4192,6 @@ html[lang="zh-Hant"] body {
     }
 }
 
-/* AI 修改：忘記密碼、安全重設與共用會員頁 */
 .auth-page {
     min-height: 100vh;
     display: grid;
@@ -4270,7 +4259,6 @@ html[lang="zh-Hant"] body {
     box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
 }
 
-/* AI 修改：互動式拉麵客製化實驗室 */
 .customizer-shell {
     display: grid;
     grid-template-columns: minmax(360px, 0.9fr) minmax(440px, 1.1fr);
@@ -4604,7 +4592,6 @@ html[lang="zh-Hant"] body {
     line-height: 1.45;
 }
 
-/* AI 修改：自動廚房與無人取餐櫃狀態 */
 .kitchen-status-shell {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 310px;
@@ -4788,7 +4775,6 @@ html[lang="zh-Hant"] body {
     letter-spacing: 3px;
 }
 
-/* AI 修改：後台智慧營運分析 */
 .analytics-summary {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -5003,7 +4989,6 @@ html[lang="zh-Hant"] body {
     }
 }
 
-/* AI 修改：讓營業額展示按鈕在統計卡內保持可見、可點。 */
 [data-admin-sales] {
     position: relative;
     flex-wrap: wrap;
@@ -5025,7 +5010,6 @@ html[lang="zh-Hant"] body {
     margin-top: 4px;
 }
 
-/* AI 修改：共用 Navbar / Footer 與 Word 最終需求的前台互動樣式。 */
 .site-header .nav-links a.is-active,
 .nav-links a.is-active {
     color: #fff;
@@ -5242,7 +5226,6 @@ html[lang="zh-Hant"] body {
     }
 }
 
-/* AI 修改：dashboard 智能加料艙，參考行動點餐勾選流程但維持霓虹風格。 */
 .addon-panel {
     margin: 22px 0;
     padding: 18px;
@@ -5433,7 +5416,6 @@ html[lang="zh-Hant"] body {
     }
 }
 
-/* AI 修改：依 Word 版面參考補上電商式三層導覽、智慧點餐 Mega Menu 與 RWD。 */
 .commerce-header {
     position: sticky;
     top: 0;
@@ -5783,7 +5765,6 @@ html[lang="zh-Hant"] body {
     color: rgba(235, 245, 255, 0.72);
 }
 
-/* AI 修改：大型三欄 Footer，接近參考網站的資訊密度但維持無人拉麵霓虹風格。 */
 .commerce-footer {
     grid-template-columns: minmax(260px, 1.2fr) repeat(2, minmax(220px, 0.8fr));
     gap: 54px;
@@ -5857,6 +5838,34 @@ html[lang="zh-Hant"] body {
     box-shadow: 0 0 20px rgba(0, 234, 255, 0.35);
 }
 
+
+.neon-footer-license {
+    position: relative;
+    display: inline-block;
+    color: transparent !important;
+    background: linear-gradient(90deg, #ffffff 0%, #7dfcff 18%, #00ffff 38%, #ff4dff 62%, #ffffff 82%, #00eaff 100%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-size: clamp(1.05rem, 1.6vw, 1.55rem);
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.76), 0 0 24px rgba(255, 0, 255, 0.34);
+    animation: neonTitleSweep 4.6s ease-in-out infinite, neonTitlePulse 2.4s ease-in-out infinite;
+}
+
+.neon-footer-license::after {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: -0.28em;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.95), rgba(255, 0, 255, 0.95), transparent);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.8), 0 0 22px rgba(255, 0, 255, 0.48);
+    content: "";
+    animation: neonUnderlineFlow 2.8s ease-in-out infinite;
+}
 .footer-socials {
     display: flex;
     justify-content: center;
@@ -6030,6 +6039,139 @@ html[lang="zh-Hant"] body {
     }
 
     .brand-story-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.neon-dynamic-title,
+.commerce-logo strong.neon-dynamic-title,
+header .logo h1,
+.admin-page header h1.neon-dynamic-title,
+body.admin-page > .container > header h1.neon-dynamic-title {
+    position: relative;
+    display: inline-block;
+    color: transparent !important;
+    background: linear-gradient(90deg, #ffffff 0%, #7dfcff 18%, #00ffff 36%, #ff00ff 58%, #ffffff 78%, #00eaff 100%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow:
+        0 0 8px rgba(0, 255, 255, 0.72),
+        0 0 18px rgba(0, 255, 255, 0.38),
+        0 0 30px rgba(255, 0, 255, 0.32);
+    animation: neonTitleSweep 4.6s ease-in-out infinite, neonTitlePulse 2.4s ease-in-out infinite;
+}
+
+.neon-dynamic-title::after,
+.commerce-logo strong.neon-dynamic-title::after,
+header .logo h1::after,
+.admin-page header h1.neon-dynamic-title::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.14em;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.95), rgba(255, 0, 255, 0.95), transparent);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.8), 0 0 22px rgba(255, 0, 255, 0.48);
+    content: "";
+    transform-origin: center;
+    animation: neonUnderlineFlow 2.8s ease-in-out infinite;
+}
+
+@keyframes neonTitleSweep {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes neonTitlePulse {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.42)); }
+    50% { filter: drop-shadow(0 0 16px rgba(255, 0, 255, 0.5)); }
+}
+
+@keyframes neonUnderlineFlow {
+    0%, 100% { opacity: 0.46; transform: scaleX(0.72); }
+    50% { opacity: 1; transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .neon-dynamic-title,
+    .commerce-logo strong.neon-dynamic-title,
+    header .logo h1,
+    .neon-footer-license,
+    .admin-page header h1.neon-dynamic-title {
+        animation: none;
+    }
+
+    .neon-dynamic-title::after,
+    .commerce-logo strong.neon-dynamic-title::after,
+    header .logo h1::after,
+    .neon-footer-license::after,
+    .admin-page header h1.neon-dynamic-title::after {
+        animation: none;
+    }
+}
+
+.member-security-panel {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.85fr) minmax(320px, 1.15fr);
+    gap: 24px;
+    align-items: stretch;
+    margin: 28px 0 38px;
+}
+
+.member-security-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.security-action-card {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    min-height: 132px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px;
+    border: 1px solid rgba(0, 255, 255, 0.28);
+    border-radius: 8px;
+    color: #d9faff;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.28);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.security-action-card:hover,
+.security-action-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: rgba(255, 0, 255, 0.72);
+    box-shadow: 0 0 24px rgba(0, 255, 255, 0.24);
+}
+
+.security-action-card strong {
+    color: #00ffff;
+    font-size: 1.1rem;
+}
+
+.security-action-card span {
+    color: rgba(230, 240, 245, 0.78);
+    line-height: 1.55;
+}
+
+.security-action-card.is-passive {
+    cursor: default;
+}
+
+.security-action-card.is-passive:hover {
+    transform: none;
+}
+
+@media (max-width: 980px) {
+    .member-security-panel,
+    .member-security-actions {
         grid-template-columns: 1fr;
     }
 }
