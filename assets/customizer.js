@@ -1,4 +1,4 @@
-// AI 修改：客製化拉麵即時計價、風味強度與配料預覽
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('[data-ramen-customizer]');
     if (!form) return;

@@ -1,5 +1,4 @@
 <?php
-// AI 修改：促銷、會員點數、兌換獎品、合作店家與營業時間共用邏輯。
 
 const POINTS_PER_TWD = 0.1;
 const POINTS_REDEEM_TWD = 0.1;
@@ -211,7 +210,7 @@ function ensureInnovationSchema() {
             ('MOCHI LAB','Dessert Studio','每日少量製作科技感麻糬甜點','兌換 150 點可獲聯名麻糬一份','12:00:00','21:00:00','#ff00ff')");
     }
 
-    // AI 修改：新增泡麵加料艙資料，讓 dashboard、購物車與訂單共用後端價格。
+
     if ((int)$conn->query("SELECT COUNT(*) AS count FROM topping_options")->fetch_assoc()['count'] === 0) {
         $conn->query("INSERT INTO topping_options
             (code,name_zh,name_en,description,price,stock,category) VALUES
@@ -460,7 +459,6 @@ function getTodayStoreHours() {
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-// AI 修改：集中管理模擬智慧據點資料，支援據點頁即時監控面板與地圖切換。
 function getDemoLocations() {
     return [
         ['code' => 'KHH-01', 'name_zh' => '楠梓新路旗艦店', 'name_en' => 'Nanzih Flagship Store', 'district' => '楠梓區', 'address' => '楠梓新路 88 號', 'hours' => '24H', 'services' => ['無障礙通道', '行動電源'], 'machine_status' => '全線運轉', 'ingredient_status' => '豚骨湯包 78%', 'amenities' => ['24H 全天候自助', '智能煮麵機', '配料自動艙', '5G Wi-Fi', '強冷空調'], 'today_orders' => 146, 'last_sync' => '18 秒前', 'power_slots' => 8, 'map_query' => '高雄市楠梓區楠梓新路', 'color' => '#00eaff'],

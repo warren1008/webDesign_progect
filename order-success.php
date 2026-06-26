@@ -23,7 +23,7 @@ $user = getUserById($_SESSION['user_id']);
     <div class="container">
         <?php include 'includes/navbar.php'; ?>
         <section class="flow-progress" aria-label="Order complete">
-            <!-- AI 修改：完成取餐碼步驟，讓整體流程與 draw.io 一致 -->
+
             <div class="flow-step is-done"><span>1</span><strong>Code</strong><small>Enter noodle code</small></div>
             <div class="flow-step is-done"><span>2</span><strong>Cart</strong><small>Confirm quantity</small></div>
             <div class="flow-step is-done"><span>3</span><strong>Pay</strong><small>Secure payment</small></div>
@@ -34,7 +34,7 @@ $user = getUserById($_SESSION['user_id']);
             <div class="success-icon">✅</div>
             <h1>ORDER SUCCESSFUL!</h1>
             <p>Thank you for your purchase!</p>
-            
+
             <div class="order-details-box">
                 <div class="detail-row">
                     <strong>Order Number:</strong>
@@ -74,7 +74,7 @@ $user = getUserById($_SESSION['user_id']);
                 </div>
                 <?php endif; ?>
             </div>
-            
+
             <div class="pickup-instructions">
                 <h3>📋 How to pick up your noodles:</h3>
                 <ol>
@@ -87,7 +87,7 @@ $user = getUserById($_SESSION['user_id']);
 
             <?php if (!empty($order['items'])): ?>
             <div class="order-pickup-items">
-                <!-- AI 修改：訂單成功頁補上含加料的取餐內容，讓購買流程前後一致。 -->
+
                 <h3>本次取餐內容</h3>
                 <?php foreach ($order['items'] as $item): ?>
                     <div class="pickup-item-row">
@@ -102,7 +102,7 @@ $user = getUserById($_SESSION['user_id']);
             <?php endif; ?>
 
             <div class="pickup-verification">
-                <!-- AI 修改：補上流程圖要求的 QR 取貨憑證與電子收據情境 -->
+
                 <div class="pickup-qr-card">
                     <div class="pickup-qr" data-pickup-qr="<?php echo htmlspecialchars($order['pickup_code']); ?>" aria-label="Pickup QR token"></div>
                     <p>Scan at the unmanned pickup locker</p>
@@ -116,13 +116,13 @@ $user = getUserById($_SESSION['user_id']);
             </div>
 
             <div class="pickup-tracker" data-pickup-tracker>
-                <!-- AI 修改：新增取餐狀態模擬，強化無人商店情境展示 -->
+
                 <div class="pickup-stage is-active">Payment verified</div>
                 <div class="pickup-stage">Locker unlocking</div>
                 <div class="pickup-stage">Ready for pickup</div>
                 <div class="pickup-stage">Digital receipt ready</div>
             </div>
-            
+
             <div class="actions">
                 <a href="kitchen-status.php?order=<?php echo urlencode($order['order_number']); ?>" class="btn btn-success">Track Kitchen & Locker</a>
                 <a href="dashboard.php" class="btn btn-primary">Order More Noodles</a>

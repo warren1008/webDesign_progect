@@ -1,4 +1,4 @@
-// AI 修改：模擬自動製作倒數與無人取餐櫃解鎖流程
+
 document.addEventListener('DOMContentLoaded', () => {
     const shell = document.querySelector('[data-kitchen-status]');
     if (!shell) return;

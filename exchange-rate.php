@@ -1,5 +1,5 @@
 <?php
-// AI 修改：提供 USD/TWD 參考匯率，並以快取避免每次開頁都呼叫外部 API。
+
 header('Content-Type: application/json; charset=UTF-8');
 header('Cache-Control: no-store, max-age=0');
 

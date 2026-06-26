@@ -1,5 +1,5 @@
 <?php
-// AI 修改：逐頁遷移用繁中語言包，先涵蓋新增的共用互動。
+
 return [
     'faq.title' => '智慧 FAQ',
     'faq.assistant' => '可拖曳助理',

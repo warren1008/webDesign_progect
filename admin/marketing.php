@@ -83,7 +83,7 @@ $services = $conn->query("SELECT service_name,service_name_zh,MIN(open_time) ope
     <header>
         <div class="logo">
             <p data-en="GROWTH CONTROL" data-zh="會員營運控制">GROWTH CONTROL</p>
-            <h1 data-en="Campaign & Member Management" data-zh="活動與會員管理">活動與會員管理</h1>
+            <h1 class="neon-dynamic-title" data-en="Campaign & Member Management" data-zh="活動與會員管理">活動與會員管理</h1>
         </div>
         <?php include 'includes/admin_nav.php'; ?>
     </header>

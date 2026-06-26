@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-    
+
     if ($password !== $confirm_password) {
         $error = 'Passwords do not match';
     } elseif (strlen($password) < 6) {
@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Username must be at least 3 characters';
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        
+
         $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $hashed_password);
-        
+
         if ($stmt->execute()) {
             $success = 'Registration successful! You can now login.';
         } else {

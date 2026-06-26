@@ -44,7 +44,7 @@ $maxStatus = max(1, ...array_values($statuses ?: ['none' => 1]));
     <header>
         <div class="logo">
             <p class="eyebrow">STORE INTELLIGENCE</p>
-            <h1>Smart Analytics</h1>
+            <h1 class="neon-dynamic-title">Smart Analytics</h1>
         </div>
         <?php include 'includes/admin_nav.php'; ?>
     </header>
@@ -63,7 +63,7 @@ $maxStatus = max(1, ...array_values($statuses ?: ['none' => 1]));
                 <span>Live database</span>
             </div>
             <div class="product-performance-list">
-                <?php while ($item = $popular->fetch_assoc()): 
+                <?php while ($item = $popular->fetch_assoc()):
                     $risk = (int)$item['stock'] < 10;
                     $suggested = max(0, (int)$item['sold'] * 2 - (int)$item['stock']);
                 ?>

@@ -5,16 +5,16 @@ requireLogin();
 ensureInnovationSchema();
 
 $stmt = $conn->prepare("
-    SELECT o.*, 
+    SELECT o.*,
            COUNT(oi.id) as items_count,
            GROUP_CONCAT(CONCAT(n.name, IF(oi.customization_json IS NULL OR oi.customization_json = '', '', '（含加料）')) SEPARATOR ', ') as items_names,
            MAX(r.id) AS review_id
-    FROM orders o 
-    LEFT JOIN order_items oi ON o.id = oi.order_id 
+    FROM orders o
+    LEFT JOIN order_items oi ON o.id = oi.order_id
     LEFT JOIN noodles n ON oi.noodle_id = n.id
     LEFT JOIN order_reviews r ON r.order_id = o.id AND r.user_id = o.user_id
-    WHERE o.user_id = ? 
-    GROUP BY o.id 
+    WHERE o.user_id = ?
+    GROUP BY o.id
     ORDER BY o.created_at DESC
 ");
 $stmt->bind_param("i", $_SESSION['user_id']);
@@ -44,7 +44,7 @@ $orders = $stmt->get_result();
                 <a href="logout.php" data-en="Logout" data-zh="登出">Logout</a>
             </div>
         </header>
-        
+
         <?php if ($orders->num_rows == 0): ?>
             <div class="empty-state">
                 <div class="empty-icon">📦</div>
@@ -77,12 +77,12 @@ $orders = $stmt->get_result();
                             <p><strong>Items:</strong> <?php echo $order['items_count']; ?> item(s)</p>
                             <p><strong>Products:</strong> <?php echo htmlspecialchars($order['items_names'] ?: 'Unavailable'); ?></p>
                             <p><strong>Total Amount:</strong> $<?php echo number_format($order['total_amount'], 2); ?></p>
-                            <p><strong>Payment Status:</strong> 
+                            <p><strong>Payment Status:</strong>
                                 <span class="status-badge status-<?php echo $order['payment_status']; ?>">
                                     <?php echo ucfirst($order['payment_status']); ?>
                                 </span>
                             </p>
-                            <p><strong>Order Status:</strong> 
+                            <p><strong>Order Status:</strong>
                                 <span class="status-badge status-<?php echo $order['order_status']; ?>">
                                     <?php echo htmlspecialchars($statusZh); ?>
                                 </span>

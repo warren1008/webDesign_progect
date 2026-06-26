@@ -1,4 +1,4 @@
-// AI 修改：Word 更新清單的共用互動集中於此，避免各頁重複貼上相同程式。
+
 (() => {
     const path = location.pathname.replace(/\\/g, '/');
     const file = path.split('/').pop() || 'index.php';
@@ -825,7 +825,7 @@
         const header = document.querySelector('[data-commerce-header]');
         if (!header) return;
 
-        // AI 修改：新增可關閉活動列與智慧點餐 Mega Menu，對應 Word 版面參考。
+
         const announcement = header.querySelector('[data-commerce-announcement]');
         const announcementKey = 'staffless-commerce-announcement-hidden';
         if (announcement && localStorage.getItem(announcementKey) === '1') {

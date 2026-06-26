@@ -3,10 +3,10 @@ require_once '../includes/config.php';
 require_once '../includes/functions.php';
 requireAdmin();
 
-// Handle delete user
+
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
-    if ($id != $_SESSION['user_id']) { // Prevent admin from deleting themselves
+    if ($id != $_SESSION['user_id']) {
         $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -27,10 +27,10 @@ $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
 <body>
     <div class="container">
         <header>
-            <h1>👥 Manage Users</h1>
+            <h1 class="neon-dynamic-title">👥 Manage Users</h1>
             <?php include 'includes/admin_nav.php'; ?>
         </header>
-        
+
         <table class="data-table">
             <thead>
                 <tr>

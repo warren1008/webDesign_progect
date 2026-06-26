@@ -6,12 +6,11 @@ requireAdmin();
 $message = isset($_GET['updated']) ? 'Order status updated successfully.' : '';
 $allowed_statuses = ['pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'];
 
-// Handle order status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     $order_id = (int)$_POST['order_id'];
     $order_status = $_POST['order_status'] ?? '';
 
-    // AI 修改：原本下拉選單沒有送出 update_status，導致訂單狀態完全不會更新
+
     if ($order_id > 0 && in_array($order_status, $allowed_statuses, true)) {
         $stmt = $conn->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
         $stmt->bind_param("si", $order_status, $order_id);
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     }
 }
 
-// Get all orders
+
 $orders = $conn->query("
     SELECT o.*, u.username, u.email,
            (SELECT COUNT(*) FROM order_items WHERE order_id = o.id) as item_count
@@ -42,14 +41,14 @@ $orders = $conn->query("
 <body>
     <div class="container">
         <header>
-            <h1>📋 Manage Customer Orders</h1>
+            <h1 class="neon-dynamic-title">📋 Manage Customer Orders</h1>
             <?php include 'includes/admin_nav.php'; ?>
         </header>
 
         <?php if ($message): ?>
             <div class="success"><?php echo htmlspecialchars($message); ?></div>
         <?php endif; ?>
-        
+
         <div class="admin-demo-toolbar">
             <button type="button" class="btn btn-secondary btn-small" data-simulate-order>新增即時訂單預覽</button>
             <small>預覽列僅供即時監控畫面確認，不會異動訂單資料。</small>

@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_live_notice'])) {
     }
 }
 
-// Get stats
 $total_orders = $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'];
 $total_sales = $conn->query("SELECT SUM(total_amount) as total FROM orders WHERE payment_status = 'paid'")->fetch_assoc()['total'];
 $total_users = $conn->query("SELECT COUNT(*) as count FROM users WHERE role = 'user'")->fetch_assoc()['count'];
@@ -35,7 +34,7 @@ $total_sales = (float)($total_sales ?? 0) + (float)($_SESSION['admin_live_sales'
     <div class="container admin-container">
         <header>
             <div class="logo">
-                <h1>🛠️ Admin Dashboard</h1>
+                <h1 class="neon-dynamic-title">🛠️ Admin Dashboard</h1>
                 <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
             </div>
             <?php include 'includes/admin_nav.php'; ?>
@@ -43,7 +42,7 @@ $total_sales = (float)($total_sales ?? 0) + (float)($_SESSION['admin_live_sales'
         <?php if (isset($_GET['live_notice'])): ?>
             <div class="success">已接收一筆前台機台付款通知。</div>
         <?php endif; ?>
-        
+
         <div class="stats-grid">
             <div class="stat-card" data-admin-orders>
                 <div class="stat-icon">📦</div>
@@ -93,7 +92,7 @@ $total_sales = (float)($total_sales ?? 0) + (float)($_SESSION['admin_live_sales'
                 </div>
             </div>
         </div>
-        
+
         <div class="admin-sections">
             <div class="admin-section">
                 <h2>活動與會員營運</h2>

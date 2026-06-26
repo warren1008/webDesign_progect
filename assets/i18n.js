@@ -1,4 +1,4 @@
-// AI 修改：新元件使用穩定翻譯鍵，既有 app.js 字典則保留以降低回歸風險。
+
 (() => {
     const dictionaries = {
         en: {

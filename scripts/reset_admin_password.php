@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 
-// AI 修改：管理員密碼維護只允許 CLI，且不再使用固定預設密碼
 if (php_sapi_name() !== 'cli') {
     http_response_code(403);
     exit("CLI only.\n");

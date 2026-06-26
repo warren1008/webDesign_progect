@@ -4,7 +4,7 @@ require_once '../includes/functions.php';
 requireAdmin();
 
 $payments = $conn->query("
-    SELECT p.*, o.order_number, u.username 
+    SELECT p.*, o.order_number, u.username
     FROM payments p
     JOIN orders o ON p.order_id = o.id
     JOIN users u ON o.user_id = u.id
@@ -23,10 +23,10 @@ $payments = $conn->query("
 <body>
     <div class="container">
         <header>
-            <h1>💳 Payment Transaction Logs</h1>
+            <h1 class="neon-dynamic-title">💳 Payment Transaction Logs</h1>
             <?php include 'includes/admin_nav.php'; ?>
         </header>
-        
+
         <div class="admin-demo-toolbar">
             <button type="button" class="btn btn-secondary btn-small" data-simulate-payment>新增即時付款預覽</button>
             <small>預覽列僅供監控畫面確認，不會異動付款紀錄。</small>

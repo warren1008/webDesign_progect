@@ -25,20 +25,20 @@ $stmt->execute();
 $lastOrder = $stmt->get_result()->fetch_assoc();
 $kioskToken = 'KIOSK-' . strtoupper(substr(hash_hmac('sha256', (string)$_SESSION['user_id'], csrfToken()), 0, 16));
 
-// Handle profile update
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['update_profile'])) {
         $email = trim($_POST['email']);
         $currentAvatar = (string)($user['avatar_path'] ?? '');
         $upload = projectUploadImage('avatar_image', 'assets/images/avatars', 'user-' . $_SESSION['user_id'], $currentAvatar);
-        
+
         if (!$upload['success']) {
             $error = $upload['message'];
         } else {
             $avatarPath = $upload['path'];
             $stmt = $conn->prepare("UPDATE users SET email = ?, avatar_path = ? WHERE id = ?");
             $stmt->bind_param("ssi", $email, $avatarPath, $_SESSION['user_id']);
-            
+
             if ($stmt->execute()) {
                 $message = "Profile updated successfully!";
                 $user = getUserById($_SESSION['user_id']);
@@ -47,20 +47,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    
-    // Handle password change
+
+
     if (isset($_POST['change_password'])) {
         $current_password = $_POST['current_password'];
         $new_password = $_POST['new_password'];
         $confirm_password = $_POST['confirm_password'];
-        
-        // Verify current password
+
+
         $stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
         $stmt->bind_param("i", $_SESSION['user_id']);
         $stmt->execute();
         $result = $stmt->get_result();
         $user_data = $result->fetch_assoc();
-        
+
         if (password_verify($current_password, $user_data['password'])) {
             if ($new_password === $confirm_password && strlen($new_password) >= 6) {
                 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
@@ -102,14 +102,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="logout.php" data-en="Logout" data-zh="登出">Logout</a>
             </div>
         </header>
-        
+
         <?php if ($message): ?>
             <div class="success"><?php echo htmlspecialchars($message); ?></div>
         <?php endif; ?>
         <?php if ($error): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
-        
+
         <div class="profile-layout">
             <div class="profile-info">
                 <h2 data-en="Profile Information" data-zh="會員資料">Profile Information</h2>
@@ -148,8 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" name="update_profile" class="btn btn-primary" data-en="Update Profile" data-zh="更新會員資料">Update Profile</button>
                 </form>
             </div>
-            
-            <div class="change-password">
+
+            <div class="change-password" id="password-settings">
                 <h2 data-en="Change Password" data-zh="變更密碼">Change Password</h2>
                 <form method="POST">
                     <div class="form-group">

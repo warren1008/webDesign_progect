@@ -9,7 +9,7 @@ $benefits = calculateCartBenefits($_SESSION['cart'] ?? [], 0, (int)$_SESSION['us
 $message = '';
 $error = '';
 
-// Handle remove
+
 if (isset($_GET['remove'])) {
     $key = preg_replace('/[^A-Za-z0-9-]/', '', (string)$_GET['remove']);
     if (isset($_SESSION['cart'][$key])) {
@@ -20,7 +20,7 @@ if (isset($_GET['remove'])) {
     exit();
 }
 
-// Handle clear
+
 if (isset($_GET['clear'])) {
     $_SESSION['cart'] = [];
     $message = "Cart cleared";
@@ -28,7 +28,7 @@ if (isset($_GET['clear'])) {
     exit();
 }
 
-// Handle update quantity
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_cart'])) {
     foreach ($_POST['quantity'] as $key => $qty) {
         $key = preg_replace('/[^A-Za-z0-9-]/', '', (string)$key);
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_cart'])) {
         if ($qty <= 0) {
             unset($_SESSION['cart'][$key]);
         } elseif (isset($_SESSION['cart'][$key])) {
-            // AI 修改：更新購物車時同步檢查庫存，避免使用者輸入超過可買數量
+
             $noodle = getNoodleById((int)$_SESSION['cart'][$key]['id']);
             if ($noodle) {
                 $available = (int)$noodle['stock'];
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_cart'])) {
     exit();
 }
 
-// Check if coming from checkout with error
+
 if (isset($_GET['error']) && $_GET['error'] == 'payment_failed') {
     $error = 'Payment failed. Please try again or update your cart.';
 } elseif (isset($_GET['error']) && $_GET['error'] == 'cart_empty') {
@@ -84,16 +84,16 @@ if (isset($_GET['error']) && $_GET['error'] == 'payment_failed') {
                 <a href="logout.php">🚪 Logout</a>
             </div>
         </header>
-        
+
         <?php if ($message): ?>
             <div class="success"><?php echo htmlspecialchars($message); ?></div>
         <?php endif; ?>
         <?php if ($error): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
-        
+
         <section class="flow-progress" aria-label="Shopping progress">
-            <!-- AI 修改：補上購物流程提示，讓 cart 與 draw.io 的 Cart/Checkout 流程對齊 -->
+
             <div class="flow-step is-done"><span>1</span><strong>Code</strong><small>Enter noodle code</small></div>
             <div class="flow-step is-active"><span>2</span><strong>Cart</strong><small>Update quantity</small></div>
             <div class="flow-step"><span>3</span><strong>Pay</strong><small>Card simulation</small></div>

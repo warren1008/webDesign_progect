@@ -1,5 +1,5 @@
 <?php
-// AI 修改：電商式三層導覽，保留 nav-links 結構讓語言與幣別切換器可正常插入。
+
 $currentPage = basename($_SERVER['PHP_SELF']);
 $isLoggedIn = isset($_SESSION['user_id']);
 $isAdminUser = ($_SESSION['user_role'] ?? '') === 'admin';
@@ -63,7 +63,7 @@ function navText(string $en, string $zh): string
     <div class="commerce-brand-row">
         <a class="commerce-logo" href="<?php echo htmlspecialchars(appPath('index.php')); ?>" aria-label="Staffless Ramen Store">
             <span class="commerce-logo-mark" aria-hidden="true"><?php echo navIcon('bowl'); ?></span>
-            <strong>Staffless Ramen</strong>
+            <strong class="neon-dynamic-title">Staffless Ramen</strong>
             <small>Self-Service Platform</small>
         </a>
         <div class="commerce-tools" aria-label="Quick tools">
@@ -80,11 +80,11 @@ function navText(string $en, string $zh): string
             <button type="button"
                     class="commerce-collapse-toggle"
                     data-nav-collapse-toggle
-                    data-collapse-en="Menu"
-                    data-collapse-zh="選單"
-                    data-expand-en="Menu"
-                    data-expand-zh="選單"
-                    aria-expanded="true"><?php echo navIcon('menu') . navText('Menu', '選單'); ?></button>
+                    data-collapse-en="Collapse"
+                    data-collapse-zh="收合"
+                    data-expand-en="Open Menu"
+                    data-expand-zh="開合選單"
+                    aria-expanded="true"><?php echo navIcon('menu') . navText('Collapse', '收合'); ?></button>
             <?php if ($isAdminUser): ?>
                 <a href="<?php echo htmlspecialchars(appPath('admin/index.php')); ?>"><?php echo navIcon('settings') . navText('Admin', '管理後台'); ?></a>
             <?php endif; ?>

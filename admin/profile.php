@@ -32,13 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $current_password = $_POST['current_password'];
         $new_password = $_POST['new_password'];
         $confirm_password = $_POST['confirm_password'];
-        
+
         $stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
         $stmt->bind_param("i", $_SESSION['user_id']);
         $stmt->execute();
         $result = $stmt->get_result();
         $user_data = $result->fetch_assoc();
-        
+
         if (password_verify($current_password, $user_data['password'])) {
             if ($new_password === $confirm_password && strlen($new_password) >= 6) {
                 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
@@ -72,17 +72,17 @@ if (!preg_match('/^https?:\/\//i', $avatarSrc)) {
 <body>
     <div class="container">
         <header>
-            <h1 data-en="Admin Profile" data-zh="管理員資料">Admin Profile</h1>
+            <h1 class="neon-dynamic-title" data-en="Admin Profile" data-zh="管理員資料">Admin Profile</h1>
             <?php include 'includes/admin_nav.php'; ?>
         </header>
-        
+
         <?php if ($message): ?>
             <div class="success"><?php echo htmlspecialchars($message); ?></div>
         <?php endif; ?>
         <?php if ($error): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
-        
+
         <div class="profile-layout">
             <div class="profile-info">
                 <h2 data-en="Admin Information" data-zh="管理員資訊">Admin Information</h2>
@@ -111,7 +111,7 @@ if (!preg_match('/^https?:\/\//i', $avatarSrc)) {
                     <p><strong data-en="Member Since:" data-zh="加入日期：">Member Since:</strong> <?php echo date('F d, Y', strtotime($user['created_at'])); ?></p>
                 </div>
             </div>
-            
+
             <div class="change-password">
                 <h2 data-en="Change Password" data-zh="變更密碼">Change Password</h2>
                 <form method="POST">

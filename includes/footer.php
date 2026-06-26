@@ -64,7 +64,7 @@
                 </svg>
             </a>
         </div>
-        <strong>©2026 Staffless Ramen Store. All Rights Reserved.</strong>
+        <strong class="neon-footer-license" data-en="©2026 Staffless Ramen Store. All Rights Reserved." data-zh="©2026 Staffless Ramen Store. 版權所有。">©2026 Staffless Ramen Store. All Rights Reserved.</strong>
         <small data-en="Staffless Ramen connects ordering, payment, pickup and member rewards in one self-service platform."
                data-zh="Staffless Ramen 串接點餐、付款、取餐與會員回饋，提供一站式自助服務。">Staffless Ramen connects ordering, payment, pickup and member rewards in one self-service platform.</small>
     </div>

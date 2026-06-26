@@ -52,7 +52,7 @@ while ($row = $summaryRows->fetch_assoc()) {
     <header>
         <div class="logo">
             <p class="eyebrow">CUSTOMER VOICE</p>
-            <h1>顧客回饋中心</h1>
+            <h1 class="neon-dynamic-title">顧客回饋中心</h1>
         </div>
         <?php include 'includes/admin_nav.php'; ?>
     </header>

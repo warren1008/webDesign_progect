@@ -1,5 +1,5 @@
 <?php
-// AI 修改：與 config.php 共用 session 設定，避免登出後 session 狀態不一致
+
 require_once 'includes/config.php';
 $_SESSION = [];
 if (ini_get('session.use_cookies')) {

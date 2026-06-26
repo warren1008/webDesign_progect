@@ -1,5 +1,5 @@
 <?php
-// AI 修改：逐頁遷移用英文語言包。
+
 return [
     'faq.title' => 'Smart FAQ',
     'faq.assistant' => 'Draggable Assistant',

@@ -1,4 +1,4 @@
-// AI 修改：新功能頁共用中英文內容切換與密碼強度回饋
+
 document.addEventListener('DOMContentLoaded', () => {
     const applyFeatureLanguage = (language) => {
         document.querySelectorAll('[data-en][data-zh]').forEach((element) => {

@@ -7,7 +7,7 @@ ensureInnovationSchema();
 $message = '';
 $error = '';
 
-// Handle Add Product
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $code = strtoupper(trim($_POST['code']));
     $name = trim($_POST['name']);
@@ -16,14 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $stock = (int)$_POST['stock'];
     $description = trim($_POST['description']);
     $upload = projectUploadImage('product_image', 'assets/images/noodles/uploads', $code);
-    
+
     if (!$upload['success']) {
         $error = $upload['message'];
     } else {
         $image = $upload['path'];
         $stmt = $conn->prepare("INSERT INTO noodles (code, name, brand, price, stock, image, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssdiss", $code, $name, $brand, $price, $stock, $image, $description);
-        
+
         if ($stmt->execute()) {
             $message = "商品已新增，照片也已同步到前台。";
         } else {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     }
 }
 
-// Handle Update Product
+
 if (isset($_GET['edit'])) {
     $edit_id = (int)$_GET['edit'];
     $edit_product = getNoodleById($edit_id);
@@ -48,14 +48,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
     $description = trim($_POST['description']);
     $currentImage = trim($_POST['current_image'] ?? '');
     $upload = projectUploadImage('product_image', 'assets/images/noodles/uploads', $code, $currentImage);
-    
+
     if (!$upload['success']) {
         $error = $upload['message'];
     } else {
         $image = $upload['path'];
         $stmt = $conn->prepare("UPDATE noodles SET code = ?, name = ?, brand = ?, price = ?, stock = ?, image = ?, description = ? WHERE id = ?");
         $stmt->bind_param("sssdissi", $code, $name, $brand, $price, $stock, $image, $description, $id);
-        
+
         if ($stmt->execute()) {
             $message = "商品資料已更新。";
             unset($edit_product);
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
     }
 }
 
-// Handle Delete Product
+
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     $stmt = $conn->prepare("DELETE FROM noodles WHERE id = ?");
@@ -77,7 +77,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Get all products
+
 $products = $conn->query("SELECT * FROM noodles ORDER BY code");
 ?>
 <!DOCTYPE html>
@@ -92,17 +92,17 @@ $products = $conn->query("SELECT * FROM noodles ORDER BY code");
 <body>
     <div class="container">
         <header>
-            <h1>🍜 Manage Noodle Products</h1>
+            <h1 class="neon-dynamic-title">🍜 Manage Noodle Products</h1>
             <?php include 'includes/admin_nav.php'; ?>
         </header>
-        
+
         <?php if ($message): ?>
             <div class="success"><?php echo htmlspecialchars($message); ?></div>
         <?php endif; ?>
         <?php if ($error): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
-        
+
         <div class="admin-layout">
             <div class="add-product-form">
                 <h2><?php echo isset($edit_product) ? '✏️ Edit Product' : '➕ Add New Product'; ?></h2>
@@ -155,7 +155,7 @@ $products = $conn->query("SELECT * FROM noodles ORDER BY code");
                     <?php endif; ?>
                 </form>
             </div>
-            
+
             <div class="products-list">
                 <h2>📋 All Noodle Products</h2>
                 <table class="data-table">
